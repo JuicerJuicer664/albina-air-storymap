@@ -8,7 +8,7 @@
 <meta property="og:title" content="Albina — Air Quality">
 <meta property="og:description" content="ENVS 400 Albina Section · Max May, Lewis & Clark College">
 <meta property="og:image" content="cover.jpg">
-<meta name="theme-color" content="#0e7490">
+<meta name="theme-color" content="#2d5016">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,11 +22,11 @@
     --text:#1a2419;        /* deep forest-slate */
     --text-dim:#4a5849;
     --text-mute:#6b7868;
-    --accent:#0e7490;      /* teal */
-    --accent-soft:#22a3bf;
-    --accent-deep:#155e63; /* deeper teal for icons */
-    --forest:#3d5a3d;      /* moss/forest green */
-    --rule:#bdcab3;        /* sage rule */
+    --accent:#2d5016;      /* deep forest green */
+    --accent-soft:#4a7c2a;  /* medium forest */
+    --accent-deep:#1a3d0e;  /* darker forest for icons */
+    --forest:#3d5a3d;       /* moss/forest green */
+    --rule:#bdcab3;         /* sage rule */
     --shadow:0 24px 60px rgba(26,36,25,.10);
     --serif:'Spectral', Georgia, 'Times New Roman', serif;
     --sans:'Inter', system-ui, -apple-system, sans-serif;
@@ -72,21 +72,21 @@
   /* ── ARCHIVE BANNER ── */
   .archive-bar{
     position:sticky;top:0;z-index:50;
-    background:#0f172a;color:#cbd5e1;
+    background:#1a2e1a;color:#c8d4c0;
     font-family:var(--sans);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
     padding:9px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;
   }
-  .archive-bar a{color:#7dd3fc;border-bottom:1px dotted currentColor;font-weight:500}
+  .archive-bar a{color:#a3c994;border-bottom:1px dotted currentColor;font-weight:500}
   .archive-bar .left{display:flex;gap:12px;align-items:center;min-width:0}
-  .archive-bar .label{color:#fbbf24;font-weight:700;flex-shrink:0}
+  .archive-bar .label{color:#d4b35a;font-weight:700;flex-shrink:0}
   .archive-bar .src{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .archive-bar .right{font-weight:500;color:#94a3b8;flex-shrink:0}
+  .archive-bar .right{font-weight:500;color:#8a9a82;flex-shrink:0}
 
   /* ── HERO ── */
   .hero{
     position:relative;width:100%;height:78vh;min-height:520px;max-height:760px;
     background:#0f172a center/cover no-repeat;
-    background-image:linear-gradient(180deg, rgba(15,23,42,.05) 0%, rgba(15,23,42,.55) 60%, rgba(15,23,42,.85) 100%), url('cover.jpg');
+    background-image:linear-gradient(180deg, rgba(26,46,26,.05) 0%, rgba(26,46,26,.55) 60%, rgba(26,46,26,.85) 100%), url('cover.jpg');
     color:#fff;
     display:flex;flex-direction:column;justify-content:flex-end;
     padding:0 24px 80px;
@@ -146,14 +146,14 @@
     position:relative;
     width:min(calc(100vw - 48px), 1400px);
     left:50%;transform:translateX(-50%);
-    background:#0f172a;border-radius:8px;overflow:hidden;
+    background:#1a2419;border-radius:8px;overflow:hidden;
     box-shadow:var(--shadow);
     margin:32px 0;
   }
   .embed::before{content:'';display:block;padding-top:56.25%} /* 16:9 default */
   .embed iframe{
     position:absolute;inset:0;width:100%;height:100%;
-    border:0;display:block;background:#0f172a;
+    border:0;display:block;background:#1a2419;
   }
   .embed.tall::before{padding-top:75%}     /* 4:3 */
   .embed.wide::before{padding-top:56.25%}  /* 16:9 */
@@ -169,7 +169,7 @@
   /* ── KEY TAKEAWAY (special section, full-bleed band) ── */
   .takeaway{
     width:100vw;position:relative;left:50%;transform:translateX(-50%);
-    background:linear-gradient(135deg, #d0ddc8 0%, #cfdde0 100%);
+    background:linear-gradient(135deg, #c8d8bd 0%, #b8c9a8 100%);
     padding:64px 24px;margin:0 0 80px;border-radius:0;
   }
   .takeaway-inner{max-width:1400px;margin:0 auto}
@@ -435,18 +435,19 @@
   const layer = document.getElementById('iconogram-bg');
   if (!layer) return;
 
-  const ICONS  = ['mthood','pine','bridge-steel','bridge-cable','rose','bike','cloud-rain','coffee','sensor'];
+  const ICONS  = ['mthood','pine','bridge-steel','bridge-cable','rose','bike','cloud-rain','coffee'];
   const RATIOS = { mthood:60/100, pine:100/60, 'bridge-steel':60/120, 'bridge-cable':70/120,
-                   rose:60/60, bike:60/100, 'cloud-rain':80/80, coffee:80/60, sensor:80/80 };
-  // Three-color palette tuned against sage bg: deep teal, forest green, slate.
-  const COLORS = ['#155e63','#155e63','#3d5a3d','#3d5a3d','#1f3a5f'];
+                   rose:60/60, bike:60/100, 'cloud-rain':80/80, coffee:80/60 };
+  // All-greens palette tuned against sage bg: deep forest, moss, dark forest.
+  const COLORS = ['#2d5016','#2d5016','#3d5a3d','#3d5a3d','#1a3d0e','#1a3d0e','#4a7c2a'];
 
   function spawn(){
     const docHeight = Math.max(document.body.scrollHeight, window.innerHeight);
     const heroHeight = (document.querySelector('.hero')?.offsetHeight || 0) + 40; // skip behind hero
     const usableH = docHeight - heroHeight - 200; // skip footer area too
 
-    const N = Math.max(12, Math.floor(usableH / 280));
+    // 5× density: was ~1 per 280px, now ~1 per 56px (lots of icons).
+    const N = Math.max(60, Math.floor(usableH / 56));
 
     for (let i = 0; i < N; i++){
       const name  = ICONS[Math.floor(Math.random() * ICONS.length)];
