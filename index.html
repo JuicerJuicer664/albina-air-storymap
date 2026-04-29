@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Albina — Air Quality · Max May, ENVS '26</title>
+<meta name="description" content="An archive of Max May's ENVS 400 Albina air-quality StoryMap, with embedded interactive visualizations.">
+<meta property="og:title" content="Albina — Air Quality">
+<meta property="og:description" content="ENVS 400 Albina Section · Max May, Lewis & Clark College">
+<meta property="og:image" content="cover.jpg">
+<meta name="theme-color" content="#0e7490">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#fafbfd;
+    --bg-soft:#f4f6fb;
+    --bg-aside:#eef5f7;
+    --text:#0f172a;
+    --text-dim:#475569;
+    --text-mute:#64748b;
+    --accent:#0e7490;
+    --accent-soft:#22a3bf;
+    --rule:#dbe2ec;
+    --shadow:0 24px 60px rgba(15,23,42,.08);
+    --serif:'Spectral', Georgia, 'Times New Roman', serif;
+    --sans:'Inter', system-ui, -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:var(--sans);font-size:17px;line-height:1.7;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor;transition:color .2s ease}
+  a:hover{color:var(--accent-soft)}
+
+  /* ── ARCHIVE BANNER ── */
+  .archive-bar{
+    position:sticky;top:0;z-index:50;
+    background:#0f172a;color:#cbd5e1;
+    font-family:var(--sans);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    padding:9px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;
+  }
+  .archive-bar a{color:#7dd3fc;border-bottom:1px dotted currentColor;font-weight:500}
+  .archive-bar .left{display:flex;gap:12px;align-items:center;min-width:0}
+  .archive-bar .label{color:#fbbf24;font-weight:700;flex-shrink:0}
+  .archive-bar .src{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .archive-bar .right{font-weight:500;color:#94a3b8;flex-shrink:0}
+
+  /* ── HERO ── */
+  .hero{
+    position:relative;width:100%;height:78vh;min-height:520px;max-height:760px;
+    background:#0f172a center/cover no-repeat;
+    background-image:linear-gradient(180deg, rgba(15,23,42,.05) 0%, rgba(15,23,42,.55) 60%, rgba(15,23,42,.85) 100%), url('cover.jpg');
+    color:#fff;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    padding:0 24px 80px;
+  }
+  .hero-inner{max-width:880px;margin:0 auto;width:100%}
+  .hero .eyebrow{
+    font-family:var(--sans);font-size:12px;letter-spacing:3px;text-transform:uppercase;
+    color:#fbbf24;font-weight:700;margin-bottom:24px;
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .hero .eyebrow::before{content:'';width:32px;height:1px;background:#fbbf24}
+  .hero h1{
+    font-family:var(--serif);font-weight:700;
+    font-size:clamp(48px, 8vw, 96px);line-height:1.02;letter-spacing:-.02em;
+    margin-bottom:24px;text-shadow:0 4px 28px rgba(0,0,0,.4);
+  }
+  .hero .byline{
+    font-family:var(--sans);font-size:15px;color:#e2e8f0;
+    border-top:1px solid rgba(255,255,255,.25);padding-top:18px;
+    display:flex;flex-wrap:wrap;gap:8px 18px;
+  }
+  .hero .byline strong{color:#fff;font-weight:600}
+
+  /* ── ARTICLE ── */
+  article{max-width:760px;margin:0 auto;padding:80px 24px 0}
+  .loading-note{
+    background:var(--bg-aside);border-left:3px solid var(--accent);
+    padding:18px 22px;margin:0 0 64px;border-radius:0 6px 6px 0;
+    font-size:14px;color:var(--text-dim);
+  }
+  .loading-note strong{color:var(--text)}
+
+  section{margin-bottom:80px}
+  section h2{
+    font-family:var(--serif);font-weight:700;
+    font-size:clamp(28px, 4vw, 40px);line-height:1.15;letter-spacing:-.01em;
+    color:var(--text);margin:0 0 28px;
+    padding-bottom:18px;border-bottom:1px solid var(--rule);
+  }
+  section h3{
+    font-family:var(--serif);font-weight:700;
+    font-size:24px;color:var(--text);margin:48px 0 16px;
+  }
+  section h4{
+    font-family:var(--sans);font-weight:600;font-size:14px;
+    color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;
+    margin:32px 0 14px;
+  }
+  section p{font-size:17px;line-height:1.75;color:var(--text);margin:0 0 22px;max-width:68ch}
+  section p:last-child{margin-bottom:0}
+  section .lead{font-size:19px;line-height:1.65;color:var(--text-dim);font-weight:500}
+
+  /* ── EMBED FRAMES ── */
+  .embed{
+    position:relative;width:100%;
+    background:#0f172a;border-radius:8px;overflow:hidden;
+    box-shadow:var(--shadow);
+    margin:32px 0;
+  }
+  .embed::before{content:'';display:block;padding-top:62.5%}  /* 16:10 default */
+  .embed iframe{
+    position:absolute;inset:0;width:100%;height:100%;
+    border:0;display:block;background:#0f172a;
+  }
+  .embed.tall::before{padding-top:75%}        /* 4:3 */
+  .embed.wide::before{padding-top:56.25%}     /* 16:9 */
+  .embed-meta{
+    display:flex;align-items:center;justify-content:space-between;
+    margin:-6px 0 32px;padding:0 4px;
+    font-size:12px;color:var(--text-mute);letter-spacing:.5px;
+  }
+  .embed-meta a{font-weight:500}
+
+  /* ── KEY TAKEAWAY (special section) ── */
+  .takeaway{
+    background:linear-gradient(135deg, #ecfeff 0%, #f0f9ff 100%);
+    padding:64px 32px;margin:0 -24px 80px;border-radius:0;
+  }
+  .takeaway-inner{max-width:760px;margin:0 auto}
+  .takeaway h3{
+    font-family:var(--sans);font-size:13px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--accent);font-weight:700;margin:0 0 24px;
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .takeaway h3::before{content:'';width:24px;height:1px;background:var(--accent)}
+  .takeaway .embed{margin:0}
+
+  /* ── THANKS ── */
+  .thanks{
+    text-align:center;padding:80px 24px;
+    background:var(--bg-soft);margin:80px -9999px;padding-left:9999px;padding-right:9999px;
+  }
+  .thanks h2{
+    font-family:var(--serif);font-size:clamp(36px, 5vw, 52px);
+    color:var(--text);margin-bottom:18px;border:0;padding:0;
+  }
+  .thanks p{
+    color:var(--text-dim);font-size:16px;
+  }
+  .thanks .signature{margin-top:24px;font-style:italic;color:var(--accent);font-weight:500}
+
+  /* ── FOOTER (Works Cited + Attribution) ── */
+  footer{
+    max-width:760px;margin:0 auto;padding:60px 24px 80px;
+    border-top:1px solid var(--rule);
+  }
+  footer h3{
+    font-family:var(--sans);font-size:12px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--text);font-weight:700;margin:0 0 24px;
+  }
+  .citation{
+    font-size:13.5px;line-height:1.65;color:var(--text-dim);
+    margin-bottom:14px;padding-left:24px;text-indent:-24px;
+  }
+  .citation a{color:var(--accent);font-weight:500;border-bottom-style:dotted;word-break:break-all}
+  .credits{
+    margin-top:48px;padding-top:24px;border-top:1px solid var(--rule);
+    display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--text-mute);
+  }
+  .credits strong{color:var(--text);font-weight:600}
+
+  /* ── PRINT / NARROW VIEWPORTS ── */
+  @media (max-width: 640px){
+    .archive-bar{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 16px}
+    .archive-bar .right{display:none}
+    .hero{height:auto;min-height:0;padding:120px 20px 60px}
+    article{padding:60px 20px 0}
+    section{margin-bottom:64px}
+    .takeaway{padding:48px 20px;margin-left:-20px;margin-right:-20px}
+    .thanks{margin:60px 0;padding:60px 20px}
+    footer{padding:40px 20px 60px}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *{animation:none !important;transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="archive-bar">
+  <div class="left">
+    <span class="label">Archived</span>
+    <span class="src">from <a href="https://arcg.is/0b5S9P1" target="_blank" rel="noopener">arcg.is/0b5S9P1</a> · ArcGIS StoryMap</span>
+  </div>
+  <span class="right">Max May · ENVS '26</span>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">ENVS 400 · Albina Section</div>
+    <h1>Albina — Air Quality</h1>
+    <div class="byline">
+      <span><strong>Max May</strong></span>
+      <span>Environmental Studies, Class of 2026</span>
+      <span>Lewis &amp; Clark College</span>
+    </div>
+  </div>
+</header>
+
+<article>
+
+  <aside class="loading-note">
+    <strong>Note:</strong> Upon opening, please give embedded animations a moment to load. Alternatively, click the pop-out button in any visualization to load it in its own tab.
+  </aside>
+
+  <section id="why-care">
+    <h2>Why should we care about the air we breathe?</h2>
+    <p>We interact with our environment every single day, but air is the one thing we have almost no control over. You can filter your water or choose what food to buy, but you have to breathe whatever air is right in front of you. Even though it's usually invisible, the air we take in is the most direct connection we have to our surroundings, and its makeup has a massive impact on our daily health.</p>
+    <p>As cities and industries grow, the atmosphere ends up catching the invisible byproducts of everything around us — like vehicle exhaust, manufacturing emissions, and energy production. These pollutants, especially fine particulate matter, aren't just a nuisance you breathe in and cough out. They completely bypass the body's natural defenses and get directly into the bloodstream. It turns the air from a basic human necessity into a driver for serious, long-term public health issues.</p>
+    <p>But air quality is more than just a health issue; it's a structural one. Clean air isn't distributed evenly, and bad air doesn't just happen by accident. The quality of the air we breathe is heavily shaped by historical decisions, zoning laws, and industrial priorities. Looking closely at air pollution shows us exactly how environmental burdens are handed out, which is why understanding what we are inhaling is the first step in addressing the broader systems that create these hazards in the first place.</p>
+  </section>
+
+  <section id="pm25">
+    <h2>What is PM2.5 and why is it considered a serious public health threat?</h2>
+
+    <div class="embed wide">
+      <iframe src="https://juicerjuicer664.github.io/pm25-invisible-threat/" title="PM2.5: The Invisible Threat" loading="lazy" allow="fullscreen"></iframe>
+    </div>
+    <div class="embed-meta">
+      <span>Interactive · PM2.5: The Invisible Threat</span>
+      <a href="https://juicerjuicer664.github.io/pm25-invisible-threat/" target="_blank" rel="noopener">Open in new tab ↗</a>
+    </div>
+
+    <p>PM2.5 refers to fine, inhalable particulate matter with a diameter of 2.5 micrometers or smaller, which typically originates from chemical reactions in the atmosphere or direct emissions from combustion sources such as power plants, motor vehicles, and wildfires <a href="https://www.epa.gov/pm-pollution/health-and-environmental-effects-particulate-matter-pm" target="_blank" rel="noopener">[EPA]</a>. PM2.5 is a major health concern because these particles are small enough to penetrate deep into the lungs and enter the bloodstream, where exposure is linked to asthma exacerbation, reduced lung function, heart attack, stroke, arrhythmia, and premature death, with elevated risk for children, older adults, and people with heart or lung disease <a href="https://www.epa.gov/pm-pollution/health-and-environmental-effects-particulate-matter-pm" target="_blank" rel="noopener">[EPA]</a>, <a href="https://www.who.int/teams/environment-climate-change-and-health/air-quality-energy-and-health/health-impacts" target="_blank" rel="noopener">[WHO]</a>. Because these microscopic pollutants completely bypass the body's natural respiratory defenses, long-term exposure is also associated with chronic systemic inflammation, making continuous monitoring and stringent air quality regulations essential for broad public health protection.</p>
+  </section>
+
+  <section id="albina">
+    <h2>Air Quality In Albina, Portland</h2>
+
+    <div class="embed wide">
+      <iframe src="https://juicerjuicer664.github.io/albina-air-quality/" title="Albina air monitoring deployment" loading="lazy" allow="fullscreen"></iframe>
+    </div>
+    <div class="embed-meta">
+      <span>Interactive · Albina monitoring deployment</span>
+      <a href="https://juicerjuicer664.github.io/albina-air-quality/" target="_blank" rel="noopener">Open in new tab ↗</a>
+    </div>
+
+    <h4>See averaged PM2.5 levels across sensors by date</h4>
+    <div class="embed wide">
+      <iframe src="https://juicerjuicer664.github.io/air-quality-map/" title="Interactive air quality map by date" loading="lazy" allow="fullscreen"></iframe>
+    </div>
+    <div class="embed-meta">
+      <span>Interactive · Air quality map by date</span>
+      <a href="https://juicerjuicer664.github.io/air-quality-map/" target="_blank" rel="noopener">Open in new tab ↗</a>
+    </div>
+
+    <h4>Interactive dashboard from the full data collection period</h4>
+    <div class="embed wide">
+      <iframe src="https://juicerjuicer664.github.io/air-quality-green/" title="AirGradient PM2.5 Dashboard" loading="lazy" allow="fullscreen"></iframe>
+    </div>
+    <div class="embed-meta">
+      <span>Interactive · AirGradient PM2.5 dashboard</span>
+      <a href="https://juicerjuicer664.github.io/air-quality-green/" target="_blank" rel="noopener">Open in new tab ↗</a>
+    </div>
+
+    <h3>Thermal Inversions</h3>
+    <p>Usually, the air near the ground is warmer than the air higher up in the atmosphere. Since warm air naturally rises, it carries exhaust, smoke, and other pollutants up and away from the surface where we breathe.</p>
+    <p>But during a thermal inversion, that normal cycle gets flipped. A layer of warmer air moves in high above, trapping a pocket of cooler air right down at ground level.</p>
+    <p>Think of that high, warm air layer like a giant lid over the city. When an inversion settles in, all the PM2.5 coming off of busy roads and industrial sites has nowhere to go. Instead of clearing out, the pollution just gets stuck and builds up in that trapped cool air, concentrating all those hazardous particles right where people live and breathe. <a href="https://deq.utah.gov/air-quality/inversions" target="_blank" rel="noopener">[Utah DEQ]</a></p>
+
+    <h4>Click the Thermal Inversion button in the animation below to see how it works</h4>
+    <div class="embed wide">
+      <iframe src="https://juicerjuicer664.github.io/thermal-inversion-sim/" title="Thermal inversion simulation" loading="lazy" allow="fullscreen"></iframe>
+    </div>
+    <div class="embed-meta">
+      <span>Interactive · Thermal inversion simulation</span>
+      <a href="https://juicerjuicer664.github.io/thermal-inversion-sim/" target="_blank" rel="noopener">Open in new tab ↗</a>
+    </div>
+  </section>
+
+  <section class="takeaway" id="takeaway">
+    <div class="takeaway-inner">
+      <h3>Key Takeaway</h3>
+      <div class="embed wide">
+        <iframe src="https://juicerjuicer664.github.io/timing-over-proximity/" title="Timing Over Proximity" loading="lazy" allow="fullscreen"></iframe>
+      </div>
+      <div class="embed-meta">
+        <span>Interactive · Timing Over Proximity</span>
+        <a href="https://juicerjuicer664.github.io/timing-over-proximity/" target="_blank" rel="noopener">Open in new tab ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="thanks">
+    <h2>Thank you for reading.</h2>
+    <p>Made by <strong>Max May</strong>, Environmental Studies Class of 2026.</p>
+    <p class="signature">— ENVS '26 · ENVS 400 Albina Section</p>
+  </div>
+
+</article>
+
+<footer>
+  <h3>Works Cited</h3>
+  <p class="citation">United States Environmental Protection Agency. (2025, May 23). <em>Health and environmental effects of particulate matter (PM)</em>. <a href="https://www.epa.gov/pm-pollution/health-and-environmental-effects-particulate-matter-pm" target="_blank" rel="noopener">https://www.epa.gov/pm-pollution/health-and-environmental-effects-particulate-matter-pm</a></p>
+  <p class="citation">Utah Department of Environmental Quality. (2025, August 27). <em>Inversions</em>. <a href="https://deq.utah.gov/air-quality/inversions" target="_blank" rel="noopener">https://deq.utah.gov/air-quality/inversions</a></p>
+  <p class="citation">World Health Organization. (n.d.). <em>Air quality, energy and health: Health impacts</em>. Retrieved April 28, 2026, from <a href="https://www.who.int/teams/environment-climate-change-and-health/air-quality-energy-and-health/health-impacts" target="_blank" rel="noopener">https://www.who.int/teams/environment-climate-change-and-health/air-quality-energy-and-health/health-impacts</a></p>
+
+  <div class="credits">
+    <span><strong>Max May</strong></span>
+    <span>ENVS '26</span>
+    <span>ENVS 400 · Albina Section</span>
+    <span>Environmental Studies Department</span>
+    <span>Lewis &amp; Clark College</span>
+  </div>
+</footer>
+
+</body>
+</html>
