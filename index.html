@@ -16,16 +16,18 @@
 
 <style>
   :root{
-    --bg:#fafbfd;
-    --bg-soft:#f4f6fb;
-    --bg-aside:#eef5f7;
-    --text:#0f172a;
-    --text-dim:#475569;
-    --text-mute:#64748b;
-    --accent:#0e7490;
+    --bg:#e6ede0;          /* sage */
+    --bg-soft:#dae3d2;     /* deeper sage */
+    --bg-aside:#d4e0d2;    /* sage with teal tint */
+    --text:#1a2419;        /* deep forest-slate */
+    --text-dim:#4a5849;
+    --text-mute:#6b7868;
+    --accent:#0e7490;      /* teal */
     --accent-soft:#22a3bf;
-    --rule:#dbe2ec;
-    --shadow:0 24px 60px rgba(15,23,42,.08);
+    --accent-deep:#155e63; /* deeper teal for icons */
+    --forest:#3d5a3d;      /* moss/forest green */
+    --rule:#bdcab3;        /* sage rule */
+    --shadow:0 24px 60px rgba(26,36,25,.10);
     --serif:'Spectral', Georgia, 'Times New Roman', serif;
     --sans:'Inter', system-ui, -apple-system, sans-serif;
   }
@@ -167,7 +169,7 @@
   /* ── KEY TAKEAWAY (special section, full-bleed band) ── */
   .takeaway{
     width:100vw;position:relative;left:50%;transform:translateX(-50%);
-    background:linear-gradient(135deg, #ecfeff 0%, #f0f9ff 100%);
+    background:linear-gradient(135deg, #d0ddc8 0%, #cfdde0 100%);
     padding:64px 24px;margin:0 0 80px;border-radius:0;
   }
   .takeaway-inner{max-width:1400px;margin:0 auto}
@@ -436,27 +438,27 @@
   const ICONS  = ['mthood','pine','bridge-steel','bridge-cable','rose','bike','cloud-rain','coffee','sensor'];
   const RATIOS = { mthood:60/100, pine:100/60, 'bridge-steel':60/120, 'bridge-cable':70/120,
                    rose:60/60, bike:60/100, 'cloud-rain':80/80, coffee:80/60, sensor:80/80 };
-  // Two-color palette: teal (accent) and slate. ~40/60 mix.
-  const COLORS = ['#0e7490','#0e7490','#475569','#475569','#475569'];
+  // Three-color palette tuned against sage bg: deep teal, forest green, slate.
+  const COLORS = ['#155e63','#155e63','#3d5a3d','#3d5a3d','#1f3a5f'];
 
   function spawn(){
     const docHeight = Math.max(document.body.scrollHeight, window.innerHeight);
     const heroHeight = (document.querySelector('.hero')?.offsetHeight || 0) + 40; // skip behind hero
     const usableH = docHeight - heroHeight - 200; // skip footer area too
 
-    const N = Math.max(10, Math.floor(usableH / 320));
+    const N = Math.max(12, Math.floor(usableH / 280));
 
     for (let i = 0; i < N; i++){
       const name  = ICONS[Math.floor(Math.random() * ICONS.length)];
       const ratio = RATIOS[name];
-      const w     = 56 + Math.random() * 64;            // 56-120px wide
+      const w     = 75 + Math.random() * 85;            // 75-160px wide (bigger)
       const h     = w * ratio;
       const top   = heroHeight + (i * usableH / N) + (Math.random() - .5) * (usableH / N) * .8;
       const leftPct = 4 + Math.random() * 88;
       const rot   = (Math.random() - .5) * 28;          // -14° to +14°
-      const dur   = 16 + Math.random() * 12;            // 16-28s loop
+      const dur   = 18 + Math.random() * 12;            // 18-30s loop
       const delay = -Math.random() * dur;               // start mid-cycle
-      const maxOp = 0.06 + Math.random() * 0.08;        // 0.06 - 0.14
+      const maxOp = 0.18 + Math.random() * 0.14;        // 0.18 - 0.32 (much more visible)
       const color = COLORS[Math.floor(Math.random() * COLORS.length)];
 
       const el = document.createElement('span');
